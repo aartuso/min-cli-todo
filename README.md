@@ -4,6 +4,10 @@ min-cli-todo is an hyper minimalistic todo list handler for your hyper minimalis
  
 Handle your todos straight from the terminal with some really simple commands:
 
+## Screenshot ##
+
+![alt text](https://github.com/aartuso/min-cli-todo/blob/master/screenshot.png "Screenshot")
+
 ## Demo ##
 
 [Demo](https://media.giphy.com/media/jncCr6bcQEQprSfwI1/giphy.gif)
