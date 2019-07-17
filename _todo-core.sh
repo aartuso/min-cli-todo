@@ -10,12 +10,15 @@ COLOR_GREEN="\e[32m";
 COMMON_DIR="${BASH_SOURCE%/*}"
 FILE_TODO_LIST="$COMMON_DIR/todo.list";
 
+SEPARATOR=$(echo -e $"\035")
+
 function check() {
-    local TODO_DONE=$(sed ''"$1"'q;d' ${FILE_TODO_LIST} | cut -d'§' -f2)
+    local TODO_DONE=$(sed ''"$1"'q;d' ${FILE_TODO_LIST} | cut -d ${SEPARATOR} -f2)
+    local SED_SEPARATOR="s/${SEPARATOR}.*/${SEPARATOR}"
     if [[ "$TODO_DONE" == "t" ]]; then
-        cat ${FILE_TODO_LIST} | sed -e ''"$1"'s/§.*/§f/' > tmp.list;
+        cat ${FILE_TODO_LIST} | sed -e ''"$1"''${SED_SEPARATOR}'f/' > tmp.list;
     else
-        cat ${FILE_TODO_LIST} | sed -e ''"$1"'s/§.*/§t/' > tmp.list;
+        cat ${FILE_TODO_LIST} | sed -e ''"$1"''${SED_SEPARATOR}'t/' > tmp.list;
     fi
     mv tmp.list ${FILE_TODO_LIST};
     print;
@@ -51,7 +54,7 @@ function mkr() {
     print;
 
     while true; do
-        echo -e "Do you want to recover last todo list?";
+        echo -e "Do you want to recover last todo list? [Y/n]";
         read yn;
         if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
 	        recover;
@@ -62,7 +65,7 @@ function mkr() {
                 read input_todo;
                 if [[ "$input_todo" ]]; then
                     # add to file
-                    echo "$input_todo §f" >> ${FILE_TODO_LIST};
+                    echo -e "$input_todo ${SEPARATOR}f" >> ${FILE_TODO_LIST};
                 else
                     echo -e "Please insert a todo $COLOR_SECRET(or CTRL+C to exit)$COLOR_END"
                 fi
@@ -82,8 +85,8 @@ function print(){
     else
         while IFS= read -r line
             do
-                local TODO_ELEM=$(echo ${line} | cut -d'§' -f1);
-                local TODO_DONE=$(echo ${line} | cut -d'§' -f2);
+                local TODO_ELEM=$(echo ${line} | cut -d ${SEPARATOR} -f1);
+                local TODO_DONE=$(echo ${line} | cut -d ${SEPARATOR} -f2);
                 if [[ "$TODO_DONE" == "t" ]]; then
                     echo -e "$COLOR_GREEN ✓ $TODO_ELEM $COLOR_END";
                 else
@@ -108,7 +111,7 @@ function recover() {
 function remove() {
     while true; do
         echo "Are you sure to delete the following todo entry?"
-        echo -e " $(sed -n "${1}p" ${FILE_TODO_LIST} | cut -d'§' -f1)"
+        echo -e " $(sed -n "${1}p" ${FILE_TODO_LIST} | cut -d ${SEPARATOR} -f1)"
         read yn;
         if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
             sed -e ''"$1"'d' ${FILE_TODO_LIST} > tmp.list;
