@@ -10,7 +10,7 @@ Handle your todos straight from the terminal with some really simple commands:
 ## Installation ##
     git clone https://github.com/aartuso/min-cli-todo.git
     cd min-cli-todo
-    ./todo.sh --help
+    ./todo.sh
 
 [Installation demo](https://media.giphy.com/media/hS9q43nRvkAW9JbZBC/giphy.gif "Installation Demo")
 
