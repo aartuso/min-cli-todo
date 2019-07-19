@@ -8,9 +8,16 @@ COLOR_SECRET="\e[90m";
 COLOR_GREEN="\e[32m";
 
 COMMON_DIR="${BASH_SOURCE%/*}"
-FILE_TODO_LIST="$COMMON_DIR/todo.list";
+FILE_TODO_LIST="$COMMON_DIR/.todo.list";
 
 SEPARATOR=$(echo -e $"\035")
+
+function init() {
+    touch ${FILE_TODO_LIST}
+    chmod +rw ${FILE_TODO_LIST}
+    touch ${FILE_TODO_LIST}.saved
+    chmod +rw ${FILE_TODO_LIST}.saved
+}
 
 function check() {
     local TODO_DONE=$(sed ''"$1"'q;d' ${FILE_TODO_LIST} | cut -d ${SEPARATOR} -f2)
@@ -33,22 +40,21 @@ function clean() {
 }
 
 function help() {
-    echo -e "usage: todo [todo_number] [rm] | t <command>"
-    echo ""
-    echo "  todo: shows the todo list"
-    echo "  todo [todo_number]: mark the selected todo number as done/undone"
-    echo "  todo [todo_number] rm: removes the selected todo"
+    echo -e "usage: todo [COMMAND] | todo [todo_number] | t [COMMAND [todo_content]]"
     echo ""
     echo "List of commands:"
     echo ""
-    echo "  mkr         Starts the todo maker wizard"
-    echo "  save        Saves the actual todo list (into $FILE_TODO_LIST.saved)"
-    echo "  clean       Cleans the actual todo list"
-    echo "  recover     Recovers the last saved todo list"
+    echo "  add [todo_content]  Adds a todo"
+    echo "  rm [todo_number]    Removes the selected todo"
+    echo "  [todo_number]       Marks the selected todo number as done/undone"
+    echo "  wizard              Starts the todo maker wizard"
+    echo "  save                Saves the actual todo list (into $FILE_TODO_LIST.saved)"
+    echo "  clean               Cleans the actual todo list"
+    echo "  recover             Recovers the last saved todo list"
     echo ""
 }
 
-function mkr() {
+function wizard() {
     echo "Welcome to todo maker by Andrea Artuso"
     local TODO_INDEX=1;
     print;
@@ -78,9 +84,7 @@ function mkr() {
 
 function print(){
     local TODO_INDEX=1;
-    if [[ ! -f ${FILE_TODO_LIST} ]]; then
-        echo -e "$COLOR_ERROR $FILE_TODO_LIST not found $COLOR_END"
-    elif [[ ! -s ${FILE_TODO_LIST} ]]; then
+    if [[ ! -s ${FILE_TODO_LIST} ]]; then
         echo -e "$COLOR_ERROR No todos. $COLOR_END"
     else
         while IFS= read -r line
@@ -110,7 +114,7 @@ function recover() {
 
 function remove() {
     while true; do
-        echo "Are you sure to delete the following todo entry?"
+        echo "Are you sure to delete the following todo entry? [Y/n]"
         echo -e " $(sed -n "${1}p" ${FILE_TODO_LIST} | cut -d ${SEPARATOR} -f1)"
         read yn;
         if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
@@ -129,4 +133,9 @@ function remove() {
 function save() {
     echo -e "Saving todos (in $FILE_TODO_LIST.saved)...";
     cp $FILE_TODO_LIST $FILE_TODO_LIST.saved
+}
+
+function add() {
+    echo -e "$1 ${SEPARATOR}f" >> ${FILE_TODO_LIST};
+    print
 }
