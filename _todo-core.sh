@@ -47,6 +47,7 @@ function help() {
     echo "  add [todo_content]  Adds a todo"
     echo "  rm [todo_number]    Removes the selected todo"
     echo "  [todo_number]       Marks the selected todo number as done/undone"
+    echo "  list                Shows all todos"
     echo "  wizard              Starts the todo maker wizard"
     echo "  save                Saves the actual todo list (into $FILE_TODO_LIST.saved)"
     echo "  clean               Cleans the actual todo list"
