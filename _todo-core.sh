@@ -136,6 +136,6 @@ function save() {
 }
 
 function add() {
-    echo -e "$1 ${SEPARATOR}f" >> ${FILE_TODO_LIST};
+    echo -e "$@ ${SEPARATOR}f" >> ${FILE_TODO_LIST};
     print
 }
