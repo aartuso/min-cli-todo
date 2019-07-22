@@ -12,7 +12,6 @@ Handle your todos straight from the terminal with some really simple commands:
     ./todo.sh
 
 ![alt text](https://media.giphy.com/media/hS9q43nRvkAW9JbZBC/giphy.gif)
-[Installation demo](https://media.giphy.com/media/hS9q43nRvkAW9JbZBC/giphy.gif "Installation Demo")
 
 ## Usage ##
 
@@ -30,7 +29,6 @@ Handle your todos straight from the terminal with some really simple commands:
 	  recover             Recovers the last saved todo list
 
 ![alt text](https://media.giphy.com/media/fwQJogVu1XmLozIcyk/giphy.gif)
-[Usage demo](https://media.giphy.com/media/fwQJogVu1XmLozIcyk/giphy.gif "Usage demo")
 
 ## *Hint: Create an alias
 
@@ -64,4 +62,3 @@ so it will become only "t" command:
     t
     
 ![alt text](https://media.giphy.com/media/kaByKnihKm9nNtfeUW/giphy.gif)
-[Alias demo](https://media.giphy.com/media/kaByKnihKm9nNtfeUW/giphy.gif "Alias Demo")
